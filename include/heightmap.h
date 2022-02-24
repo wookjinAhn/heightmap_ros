@@ -93,6 +93,7 @@ namespace quadtree
 
     private:
         std::map<std::pair<float, float>, std::pair<float, int>> mMapPair;
+        std::map<std::pair<float, float>, float> mHeightPair;
         std::vector<Point3D*> mPoints;
     };
 
@@ -115,7 +116,7 @@ namespace quadtree
         std::vector<std::unique_ptr<Point3D>> ReadPCDToVector(std::string inputPath);
         std::vector<Point3D*> SamplingPoints(std::vector<Point3D*> inputPoints, int samplingNum);
         void InsertPoints(std::vector<Point3D*> points);
-        void WriteVectorToPCD(std::string outputPath);
+        void WriteHeightmapToPCD(std::string outputPath);
 
         Boundary GetBoundary() const { return mBoundary; }
         void SetBoundary(Boundary boundary) { this->mBoundary = boundary; }

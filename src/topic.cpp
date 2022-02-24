@@ -32,7 +32,7 @@ void pc_callback (const sensor_msgs::PointCloud2ConstPtr& pointcloud2_msg)
 
 //    // save .pcd
 //    std::string outputPath = "/home/wj/Desktop/Data/output_data/";
-//    qt.WriteVectorToPCD(outputPath);
+//    qt.WriteHeightmapToPCD(outputPath);
 
     std::cout << ros::Time::now() << std::endl;     // for check publish well
 }

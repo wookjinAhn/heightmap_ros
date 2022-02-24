@@ -2,26 +2,52 @@
 
 namespace quadtree
 {
-    void Heightmap::MakeHeightMap(Point3D* points)	// { <x, z>, <y, dividNum> }
+//    void Heightmap::MakeHeightMap(Point3D* points)	// { <x, z>, <y, dividNum> }
+//    {
+//        if (mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ())) == mMapPair.end())	// exist
+//        {
+//            int dividNum = 1;
+//            mMapPair.insert({ std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()), std::make_pair(points->GetY(), dividNum) });
+//        }
+//        else	// not exist
+//        {
+//            mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second.first += points->GetY();
+//            mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second.second++;
+//        }
+//    }
+
+    void Heightmap::MakeHeightMap(Point3D* points)	// { <x, z>, y}
     {
-        if (mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ())) == mMapPair.end())	// exist
+        if (mHeightPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ())) == mHeightPair.end())	// exist
         {
-            int dividNum = 1;
-            mMapPair.insert({ std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()), std::make_pair(points->GetY(), dividNum) });
+            mHeightPair.insert({ std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()), points->GetY() });
         }
         else	// not exist
         {
-            mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second.first += points->GetY();
-            mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second.second++;
+            float beforeHeight = mHeightPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second;
+            if (beforeHeight > points->GetY())
+            {
+                mHeightPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second = points->GetY();
+            }
         }
     }
 
+//    void Heightmap::MakeMapToVector()
+//    {
+//        for (auto iter = mMapPair.begin(); iter != mMapPair.end(); ++iter)
+//        {
+//            Point3D* pointXYZ = new Point3D;
+//            pointXYZ->SetXYZ(iter->first.first, iter->second.first / iter->second.second, iter->first.second);
+//            mPoints.push_back(pointXYZ);
+//        }
+//    }
+
     void Heightmap::MakeMapToVector()
     {
-        for (auto iter = mMapPair.begin(); iter != mMapPair.end(); ++iter)
+        for (auto iter = mHeightPair.begin(); iter != mHeightPair.end(); ++iter)
         {
             Point3D* pointXYZ = new Point3D;
-            pointXYZ->SetXYZ(iter->first.first, iter->second.first / iter->second.second, iter->first.second);
+            pointXYZ->SetXYZ(iter->first.first, iter->second, iter->first.second);
             mPoints.push_back(pointXYZ);
         }
     }
@@ -146,7 +172,7 @@ namespace quadtree
         }
     }
 
-    void Node::WriteVectorToPCD(std::string outputPath)
+    void Node::WriteHeightmapToPCD(std::string outputPath)
     {
         time_t t;
         struct tm* timeinfo;
