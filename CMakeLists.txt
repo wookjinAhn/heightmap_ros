@@ -8,11 +8,16 @@ find_package(catkin REQUIRED COMPONENTS
         sensor_msgs
         )
 
+find_package(Eigen3 REQUIRED)
+
+
 catkin_package(
+        DEPENDS Eigen
 )
 
 include_directories(
         ${catkin_INCLUDE_DIRS}
+        ${Eigen3_INCLUDE_DIRS}
 )
 
 add_executable(heightmap_ros src/topic.cpp include/heightmap.h src/heightmap.cpp)

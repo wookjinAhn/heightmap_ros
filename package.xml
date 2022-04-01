@@ -2,7 +2,7 @@
 <package format="2">
   <name>heightmap_ros</name>
   <version>0.0.0</version>
-  <description>The heightmap_memory package</description>
+  <description>The heightmap_ros package</description>
 
   <maintainer email="wj@todo.todo">wj</maintainer>
 
@@ -13,6 +13,7 @@
   <build_depend>pcl_ros</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
+
   <build_export_depend>pcl_conversions</build_export_depend>
   <build_export_depend>pcl_ros</build_export_depend>
   <build_export_depend>roscpp</build_export_depend>
@@ -24,6 +25,9 @@
 
   <build_depend>libpcl-all-dev</build_depend>
   <exec_depend>libpcl-all</exec_depend>
+
+  <build_depend>cmake_modules</build_depend>
+  <exec_depend>cmake_modules</exec_depend>
 
   <export>
 
