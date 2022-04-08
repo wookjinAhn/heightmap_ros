@@ -2,19 +2,6 @@
 
 namespace camelQTree
 {
-//    void Heightmap::MakeHeightMap(Point3D* points)	// { <x, z>, <y, dividNum> }
-//    {
-//        if (mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ())) == mMapPair.end())	// exist
-//        {
-//            int dividNum = 1;
-//            mMapPair.insert({ std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()), std::make_pair(points->GetY(), dividNum) });
-//        }
-//        else	// not exist
-//        {
-//            mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second.first += points->GetY();
-//            mMapPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second.second++;
-//        }
-//    }
 
 void Heightmap::MakeHeightMap(Point3D* points)	// { <x, z>, y}
 {
@@ -89,10 +76,18 @@ std::vector<Point3D*> Node::SamplingPoints(std::vector<Point3D*> inputPoints, in
     std::random_device random;
     std::uniform_int_distribution<int> range(0, inputPoints.size() - 1);
 
+    float degree = -45.0f;
+    float rotationRow1[3] = {1.0f, 0.0f, 0.0f};
+    float rotationRow2[3] = {0.0f, (float)std::cos(degree * D2R), (float)-std::sin(degree * D2R)};
+    float rotationRow3[3] = {0.0f, (float)std::sin(degree * D2R), (float)std::cos(degree * D2R)};
+
     for (int i = 0; i < samplingNum; i++)
     {
         int randomIndex = range(random);
-        samplingPoints.push_back(inputPoints[randomIndex]);
+        Point3D* pointXYZ = new Point3D(rotationRow1[0] * inputPoints[randomIndex]->GetX() + rotationRow1[1] * inputPoints[randomIndex]->GetY() + rotationRow1[2] * inputPoints[randomIndex]->GetZ(),
+                                        rotationRow2[0] * inputPoints[randomIndex]->GetX() + rotationRow2[1] * inputPoints[randomIndex]->GetY() + rotationRow2[2] * inputPoints[randomIndex]->GetZ(),
+                                        rotationRow3[0] * inputPoints[randomIndex]->GetX() + rotationRow3[1] * inputPoints[randomIndex]->GetY() + rotationRow3[2] * inputPoints[randomIndex]->GetZ());
+        samplingPoints.push_back(pointXYZ);
     }
     return samplingPoints;
 }
@@ -107,30 +102,6 @@ void Node::InsertPoints(std::vector<Point3D*> points)
     }
     mHeightmap->MakeMapToVector();
 }
-
-//void Node::InsertPoints(std::vector<Point3D*> points)
-//{
-//    Eigen::AngleAxisd rollAngle(-45 * D2R, Eigen::Vector3d::UnitX());
-//    Eigen::AngleAxisd pitchAngle(0, Eigen::Vector3d::UnitY());
-//    Eigen::AngleAxisd yawAngle(0, Eigen::Vector3d::UnitZ());
-//    Eigen::Quaternion<double> quaternion = rollAngle * pitchAngle * yawAngle;
-//    Eigen::Matrix3d rotationMatrix = quaternion.matrix();
-//    Eigen::MatrixXd pointMatrix = Eigen::MatrixXd(3, 1);
-//
-//    for (int i = 0; i < points.size(); i++) //
-//    {
-//        int depth = 0;
-//
-//        pointMatrix(0, 0) = points[i]->GetX();
-//        pointMatrix(1, 0) = points[i]->GetY();
-//        pointMatrix(2, 0) = points[i]->GetZ();
-//
-//        points[i]->SetXYZ((rotationMatrix * pointMatrix)(0, 0), (rotationMatrix * pointMatrix)(1, 0), (rotationMatrix * pointMatrix)(2, 0));
-//
-//        insertNode(points[i], mHeightmap, depth);	//
-//    }
-//    mHeightmap->MakeMapToVector();
-//}
 
 void Node::subdivide()
 {
@@ -238,23 +209,9 @@ void Node::WriteHeightmapToPCD(std::string outputPath)
 
 std::vector<Point3D*> Node::ReadTopicToPoints(sensor_msgs::PointCloud pointcloud_msg)
 {
-    float bodyHeight = -0.32;
-    int rotateDgree = -40;
-    Eigen::AngleAxisd rollAngle(rotateDgree * D2R, Eigen::Vector3d::UnitX());
-    Eigen::AngleAxisd pitchAngle(0, Eigen::Vector3d::UnitY());
-    Eigen::AngleAxisd yawAngle(0, Eigen::Vector3d::UnitZ());
-    Eigen::Quaternion<double> q = rollAngle * pitchAngle * yawAngle;
-    Eigen::Matrix3d rotationMatrix = q.matrix();
-    Eigen::MatrixXd pointMatrix = Eigen::MatrixXd(3, 1);
-
     for(int i = 0; i < pointcloud_msg.points.size(); i++)
     {
         Point3D* pointXYZ = new Point3D(pointcloud_msg.points[i].x, pointcloud_msg.points[i].y, pointcloud_msg.points[i].z);
-        pointMatrix(0, 0) = pointXYZ->GetX();
-        pointMatrix(1, 0) = pointXYZ->GetY();
-        pointMatrix(2, 0) = pointXYZ->GetZ();
-
-        pointXYZ->SetXYZ((rotationMatrix * pointMatrix)(0, 0), (rotationMatrix * pointMatrix)(1, 0) - bodyHeight, (rotationMatrix * pointMatrix)(2, 0));
         mPoints.push_back(pointXYZ);
     }
     return mPoints;
