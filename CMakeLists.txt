@@ -24,5 +24,5 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(heightmap_ros example/topic.cpp ${heightmap_ros_src})
+add_executable(heightmap_ros example/usingTopic.cpp ${heightmap_ros_src})
 target_link_libraries(heightmap_ros ${catkin_LIBRARIES} camel-euclid-vector )
