@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
         roscpp
         sensor_msgs
         )
+find_package(camel-euclid-vector REQUIRED)
 
 catkin_package(
 )
@@ -16,4 +17,4 @@ include_directories(
 )
 
 add_executable(heightmap_ros src/topic.cpp src/heightmap.cpp)
-target_link_libraries(heightmap_ros ${catkin_LIBRARIES})
+target_link_libraries(heightmap_ros ${catkin_LIBRARIES} )
