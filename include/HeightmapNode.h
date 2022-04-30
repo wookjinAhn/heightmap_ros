@@ -10,22 +10,29 @@
 #include <fstream>
 #include "Point3.h"
 
-class HeightmapNode
+namespace camel
 {
-public:
-//        ~HeightmapNode();
+	class HeightmapNode
+	{
+	public:
+		~HeightmapNode()
+		{
+			for (int i = 0; i < mPoints.size(); i++) {
+				delete mPoints[i];
+			}
+			mPoints.clear();
+		}
+		std::vector<Point3*> GetPoints() const { return mPoints; }
 
-	std::vector<Point3D*> GetPoints() const;
-	void SetPoints(Point3D* point);
+		void MakeHeightMap(Point3* points);
+		void MakeMapToVector();
 
-	void MakeHeightMap(Point3D* points);
-	void MakeMapToVector();
+	private:
+		std::map<std::pair<float, float>, std::pair<float, int>> mMapPair;
+		std::map<std::pair<float, float>, float> mHeightPair;
+		std::vector<Point3*> mPoints;
+	};
+}
 
-	void WriteVectorToPCD(const std::string &outputPath);
-
-private:
-	std::map<std::pair<float, float>, float> mMapPair;
-	std::vector<Point3D*> mPoints;
-};
 
 #endif //HEIGHTMAPNODE_H

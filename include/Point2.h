@@ -8,12 +8,14 @@
 #include <camel-euclid/Vector.h>
 
 
-class Point2 : public CamelVector::Point2D
+namespace camel
 {
-public:
-
-private:
-
-};
+	class Point2 : public CamelVector::Point2D
+	{
+	public:
+		Point2();
+		Point2(float x, float z);
+	};
+}
 
 #endif //POINT2_H

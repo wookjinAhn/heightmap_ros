@@ -4,28 +4,31 @@
 
 #include "../include/Point3.h"
 
-Point3D::Point3D()
-		: CamelVector::Vector3D()
+namespace camel
 {
-}
+	Point3::Point3()
+		: CamelVector::Point3D()
+	{
+	}
 
-Point3D::Point3D()
-		: CamelVector::Vector3D(x, y, z)
-{
-}
+	Point3::Point3(float x, float y, float z)
+		: CamelVector::Point3D(x, y, z)
+	{
+	}
 
-Point2D Point3D::GetEndNodeXZ() const
-{
-	return mEndNodeXY;
-}
+	Point2 Point3::GetEndNodeXZ() const
+	{
+		return mEndNodeXY;
+	}
 
-void Point3D::SetEndNodeXY(const Point2D endNodeXY)
-{
-	mEndNodeXY = endNodeXY;
-}
+	void Point3::SetEndNodeXZ(const Point2 endNodeXZ)
+	{
+		mEndNodeXY = endNodeXZ;
+	}
 
-void Point3D::SetEndNodeXY(const float x, const float y)
-{
-	mEndNodeXY.SetX(x);
-	mEndNodeXY.SetY(y);
+	void Point3::SetEndNodeXZ(const float x, const float z)
+	{
+		mEndNodeXY.SetX(x);
+		mEndNodeXY.SetZ(z);
+	}
 }

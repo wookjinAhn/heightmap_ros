@@ -8,19 +8,22 @@
 #include <camel-euclid/Vector.h>
 #include "Point2.h"
 
-class Point3 : public CamelVector::Point3D
+namespace camel
 {
-public:
-	Point3();
-	Point3(float x, float y, float z);
+	class Point3 : public CamelVector::Point3D
+	{
+	public:
+		Point3();
+		Point3(float x, float y, float z);
 
-	Point3 GetEndNodeXZ() const;
+		Point2 GetEndNodeXZ() const;
 
-	void SetEndNodeXZ(Point2 const endNodeXY);
-	void SetEndNodeXZ(float const x, float const z);
+		void SetEndNodeXZ(Point2 const endNodeXZ);
+		void SetEndNodeXZ(float const x, float const y);
 
-private:
-	Point2 mEndNodeXY;
-};
+	private:
+		Point2 mEndNodeXY;
+	};
+}
 
 #endif //POINT3_H

@@ -4,12 +4,15 @@
 
 #include "../include/Point2.h"
 
-Point2D::Point2D()
-		: CamelVector::Vector2D()
+namespace camel
 {
-}
+	Point2::Point2()
+		: CamelVector::Point2D()
+	{
+	}
 
-Point2D::Point2D(float x, float z)
-		: CamelVector::Vector2D(x, y)
-{
+	Point2::Point2(float x, float z)
+		: CamelVector::Point2D(x, z)
+	{
+	}
 }
