@@ -15,7 +15,7 @@ void pc_callback (const sensor_msgs::PointCloud2ConstPtr& pointcloud2_msg)
 
 	heightmap.FromTopic(pointcloud_msg);
 	std::vector<camel::Point3*> samplingPoints;
-	heightmap.SamplingPoints(samplingPoints, 5000);
+	heightmap.SamplingPoints(&samplingPoints, 5000);
 	heightmap.insertQuadtreeNode(samplingPoints);
 
     sensor_msgs::PointCloud output_pointcloud;
@@ -25,34 +25,6 @@ void pc_callback (const sensor_msgs::PointCloud2ConstPtr& pointcloud2_msg)
 	sensor_msgs::convertPointCloudToPointCloud2(output_pointcloud, output_pointcloud2);
 	pub.publish(output_pointcloud2);
 	std::cout << ros::Time::now() << std::endl;
-//    float MIN_X = -0.5f;
-//    float MAX_X = 0.5f;
-//    float Z = 1.0f;
-//    int DEPTH = 6;
-//    camel::Boundary boundary(MIN_X, MAX_X, Z);
-//	camel::QuadtreeNode qt(boundary, DEPTH);
-//
-//    sensor_msgs::PointCloud pointcloud_msg;
-//    sensor_msgs::convertPointCloud2ToPointCloud(*pointcloud2_msg, pointcloud_msg);  // convert for use XYZ
-//
-//    std::vector<camel::Point3*> inputQPoints = qt.ReadTopicToPoints(pointcloud_msg);
-//    std::vector<camel::Point3*> samplingPoints = qt.SamplingPoints(inputQPoints, 5000);
-//    qt.InsertPoints(samplingPoints);
-//
-//    sensor_msgs::PointCloud output_pointcloud;
-//    sensor_msgs::PointCloud2 output_pointcloud2;
-//
-//    qt.MakeHeightmapToTopic(output_pointcloud);     // set PointCloud msgs for publisher
-//
-//    sensor_msgs::convertPointCloudToPointCloud2(output_pointcloud, output_pointcloud2);
-//
-//    pub.publish(output_pointcloud2);
-//
-////    // save .pcd
-////    std::string outputPath = "/home/wj/Desktop/Data/output_data/";
-////    qt.WriteHeightmapToPCD(outputPath);
-//
-//    std::cout << ros::Time::now() << std::endl;     // for check publish well
 }
 
 int main(int argc, char** argv)

@@ -21,8 +21,11 @@ namespace camel
 		~HeightmapNode();
 
 		std::vector<Point3*> GetInputPoints() const;
+		std::vector<Point3*> GetOutputPoints() const;
+		std::map<std::pair<float, float>, float>* GetMapData() { return &mMapData; }
+		QuadtreeNode* GetQuadtreeNode() { return mQuadtreeNode; }
 
-		void SamplingPoints(std::vector<Point3*> outputPoints, int samplingNum);	// + rotation
+		void SamplingPoints(std::vector<Point3*>* outputPoints, int samplingNum);	// + rotation
 
 		void FromPCD(std::string inputPath);
 		void ToPCD(std::string outputPath);

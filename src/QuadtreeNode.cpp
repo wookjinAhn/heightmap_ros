@@ -8,12 +8,15 @@ namespace camel
 {
 
 	QuadtreeNode::QuadtreeNode(Boundary boundary, int depth, int capacity)
-		: mBoundary(boundary), mDepth(depth), mCapacity(capacity)
+		: mBoundary(boundary)
+		, mDepth(depth)
+		, mCapacity(capacity)
 	{
 	}
 
 	QuadtreeNode::QuadtreeNode(Boundary boundary, int depth)
-		: mBoundary(boundary), mDepth(depth)
+		: mBoundary(boundary)
+		, mDepth(depth)
 	{
 		mCapacity = 1;
 		mCapacityPoints.reserve(mCapacity);
@@ -30,7 +33,7 @@ namespace camel
 	QuadtreeNode::QuadtreeNode(int depth)
 		: mDepth(depth)
 	{
-		Boundary boundary(2.0f, -1.0f, 1.0f);
+		Boundary boundary(-1.0f, 1.0f, 2.0f);
 		mBoundary = boundary;
 		mCapacity = 1;
 		mCapacityPoints.reserve(mCapacity);
@@ -38,84 +41,12 @@ namespace camel
 
 	QuadtreeNode::QuadtreeNode()
 	{
-		Boundary boundary(2.0f, -1.0f, 1.0f);
+		Boundary boundary(-1.0f, 1.0f, 2.0f);
 		mBoundary = boundary;
 		mDepth = 6;
 		mCapacity = 1;
 		mCapacityPoints.reserve(mCapacity);
 	}
-
-//	QuadtreeNode::~QuadtreeNode()
-//	{
-//		for (int i = 0; i < mPoints.size(); i++) {
-//			delete mPoints[i];
-//		}
-//		mPoints.clear();
-//	}
-//
-//	std::vector<std::unique_ptr<Point3>> QuadtreeNode::ReadPCDToVector(std::string inputPath)
-//	{
-//		std::ifstream fin;
-//		fin.open(inputPath);
-//
-//		std::vector<std::unique_ptr<Point3>> inputPoints;
-//		std::string line;
-//
-//		if (fin.is_open())
-//		{
-//			int num = 1;
-//			while (!fin.eof())
-//			{
-//				getline(fin, line);
-//				if (num > 10)
-//				{
-//					float x, y, z;
-//					std::unique_ptr<Point3> pointXYZ = std::make_unique<Point3>();
-//					std::istringstream iss(line);
-//					iss >> x >> y >> z;
-//					pointXYZ->SetXYZ(x, y, z);
-//					inputPoints.push_back(std::move(pointXYZ));
-//				}
-//				num++;
-//			}
-//		}
-//		fin.close();
-//		return inputPoints;
-//	}
-
-//	std::vector<Point3*> QuadtreeNode::SamplingPoints(std::vector<Point3*> inputPoints, int samplingNum)
-//	{
-//		std::vector<Point3*> samplingPoints;
-//
-//		std::random_device random;
-//		std::uniform_int_distribution<int> range(0, inputPoints.size() - 1);
-//
-//		float degree = -45.0f;
-//		float rotationRow1[3] = {1.0f, 0.0f, 0.0f};
-//		float rotationRow2[3] = {0.0f, (float)std::cos(degree * D2R), (float)-std::sin(degree * D2R)};
-//		float rotationRow3[3] = {0.0f, (float)std::sin(degree * D2R), (float)std::cos(degree * D2R)};
-//
-//		for (int i = 0; i < samplingNum; i++)
-//		{
-//			int randomIndex = range(random);
-//			Point3* pointXYZ = new Point3(rotationRow1[0] * inputPoints[randomIndex]->GetX() + rotationRow1[1] * inputPoints[randomIndex]->GetY() + rotationRow1[2] * inputPoints[randomIndex]->GetZ(),
-//				rotationRow2[0] * inputPoints[randomIndex]->GetX() + rotationRow2[1] * inputPoints[randomIndex]->GetY() + rotationRow2[2] * inputPoints[randomIndex]->GetZ(),
-//				rotationRow3[0] * inputPoints[randomIndex]->GetX() + rotationRow3[1] * inputPoints[randomIndex]->GetY() + rotationRow3[2] * inputPoints[randomIndex]->GetZ());
-//			samplingPoints.push_back(pointXYZ);
-//		}
-//		return samplingPoints;
-//	}
-
-//	void QuadtreeNode::InsertPoints(std::vector<Point3*> points)
-//	{
-//		for (int i = 0; i < points.size(); i++) //
-//		{
-//			int depth = 0;
-//
-//			insertNode(points[i], mHeightmap, depth);	//
-//		}
-//		mHeightmap->MakeMapToVector();
-//	}
 
 	Boundary QuadtreeNode::GetBoundary() const
 	{
@@ -147,12 +78,13 @@ namespace camel
 		mDivided = true;
 	}
 
-	void QuadtreeNode::insertNode(Point3* point, int depth, std::map<std::pair<float, float>, float> mapData)
+	void QuadtreeNode::insertNode(Point3* point, int depth, std::map<std::pair<float, float>, float>* mapData)
 	{
 		mCapacityPoints.push_back(point);
 
 		if (mDepth == depth)
 		{
+//			std::cout << "insertNode mMapData : " << mapData << std::endl;
 			makeHeightmap(point, mapData);
 			return;
 		}
@@ -192,18 +124,18 @@ namespace camel
 		}
 	}
 
-	void QuadtreeNode::makeHeightmap(Point3* points, std::map<std::pair<float, float>, float> mapData)
+	void QuadtreeNode::makeHeightmap(Point3* points, std::map<std::pair<float, float>, float>* mapData)
 	{
-		if (mapData.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ())) == mapData.end())	// exist
+		if (mapData->find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ())) == mapData->end())	// exist
 		{
-			mapData.insert({ std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()), points->GetY() });
+			mapData->insert({ std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()), points->GetY() });
 		}
 		else	// not exist
 		{
-			float beforeHeight = mapData.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second;
+			float beforeHeight = mapData->find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second;
 			if (beforeHeight > points->GetY())
 			{
-				mapData.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second = points->GetY();
+				mapData->find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ()))->second = points->GetY();
 			}
 		}
 	}

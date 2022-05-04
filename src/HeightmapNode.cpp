@@ -33,7 +33,12 @@ namespace camel
 		return mInputPoints;
 	}
 
-	void HeightmapNode::SamplingPoints(std::vector<Point3*> outputPoints, int samplingNum)
+	std::vector<Point3*> HeightmapNode::GetOutputPoints() const
+	{
+		return mOutputPoints;
+	}
+
+	void HeightmapNode::SamplingPoints(std::vector<Point3*>* outputPoints, int samplingNum)
 	{
 		std::random_device random;
 		std::uniform_int_distribution<int> range(0, mInputPoints.size() - 1);
@@ -49,7 +54,7 @@ namespace camel
 			Point3* pointXYZ = new Point3(rotationRow1[0] * mInputPoints[randomIndex]->GetX() + rotationRow1[1] * mInputPoints[randomIndex]->GetY() + rotationRow1[2] * mInputPoints[randomIndex]->GetZ(),
 				rotationRow2[0] * mInputPoints[randomIndex]->GetX() + rotationRow2[1] * mInputPoints[randomIndex]->GetY() + rotationRow2[2] * mInputPoints[randomIndex]->GetZ(),
 				rotationRow3[0] * mInputPoints[randomIndex]->GetX() + rotationRow3[1] * mInputPoints[randomIndex]->GetY() + rotationRow3[2] * mInputPoints[randomIndex]->GetZ());
-			outputPoints.push_back(pointXYZ);
+			outputPoints->push_back(pointXYZ);
 		}
 //		return samplingPoints;
 	}
@@ -159,8 +164,9 @@ namespace camel
 		for(int i = 0; i < points.size(); i++)
 		{
 			int depth = 0;
-			mQuadtreeNode->insertNode(points[i], depth, mMapData);
+			mQuadtreeNode->insertNode(points[i], depth, &mMapData);
 		}
+		makeMapToVector();
 	}
 
 	void HeightmapNode::makeMapToVector()

@@ -55,16 +55,16 @@ namespace camel
 		Boundary GetBoundary() const { return mBoundary; }
 		void SetBoundary(Boundary boundary) { mBoundary = boundary; }
 
-		HeightmapNode* GetHeightmap() const { return mHeightmap; }
+		HeightmapNode_old* GetHeightmap() const { return mHeightmap; }
 
 		std::vector<Point3*> ReadTopicToPoints(sensor_msgs::PointCloud pointcloud_msg);				// == at HeightmapNode ==
 		void MakeHeightmapToTopic(sensor_msgs::PointCloud& output_pointcloud);						// == at HeightmapNode ==
 
 	private:
 		void subdivide();
-		void insertNode(Point3* point, HeightmapNode* heightmap, int depth);
+		void insertNode(Point3* point, HeightmapNode_old* heightmap, int depth);
 
-		HeightmapNode* mHeightmap = new HeightmapNode();
+		HeightmapNode_old* mHeightmap = new HeightmapNode_old();
 		Boundary mBoundary;
 		int mCapacity;
 		int mDepth;
