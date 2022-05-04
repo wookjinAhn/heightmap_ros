@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(heightmap_ros)
+project(single_height_pacakge)
 
 set(CMAKE_CXX_FLAGS "-std=c++14 ${CMAKE_CXX_FLAGS}")
 
 set(heightmap_ros_src
         src/Boundary.cpp
-        src/HeightmapNode.cpp
+#        src/HeightmapNode_old.cpp
         src/Point3.cpp
         src/Point2.cpp
-        src/QuadtreeNode.cpp
+#        src/QuadtreeNode_old.cpp
 )
 
 find_package(catkin REQUIRED COMPONENTS
@@ -24,5 +24,5 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(heightmap_ros example/usingTopic.cpp ${heightmap_ros_src})
-target_link_libraries(heightmap_ros ${catkin_LIBRARIES} camel-euclid-vector )
+add_executable(single_height_pacakge example/usingTopic.cpp ${heightmap_ros_src})
+target_link_libraries(single_height_pacakge ${catkin_LIBRARIES} camel-euclid-vector )

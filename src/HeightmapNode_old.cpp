@@ -2,7 +2,7 @@
 // Created by wj on 22. 4. 30.
 //
 
-#include "../include/HeightmapNode.h"
+#include "../include/HeightmapNode_old.h"
 
 namespace camel
 {

@@ -2,8 +2,8 @@
 // Created by wj on 22. 4. 30.
 //
 
-#ifndef HEIGHTMAPNODE_H
-#define HEIGHTMAPNODE_H
+#ifndef HEIGHTMAPNODE_OLD_H
+#define HEIGHTMAPNODE_OLD_H
 
 #include <vector>
 #include <map>
@@ -35,4 +35,4 @@ namespace camel
 }
 
 
-#endif //HEIGHTMAPNODE_H
+#endif //HEIGHTMAPNODE_OLD_H

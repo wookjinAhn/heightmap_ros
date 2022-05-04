@@ -2,8 +2,8 @@
 // Created by wj on 22. 4. 30.
 //
 
-#ifndef QUADTREENODE_H
-#define QUADTREENODE_H
+#ifndef QUADTREENODE_OLD_H
+#define QUADTREENODE_OLD_H
 
 #include <algorithm>
 #include <ctime>
@@ -20,7 +20,7 @@
 #include "Point2.h"
 #include "Point3.h"
 #include "Boundary.h"
-#include "HeightmapNode.h"
+#include "HeightmapNode_old.h"
 
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud.h>
@@ -81,4 +81,4 @@ namespace camel
 }
 
 
-#endif //QUADTREENODE_H
+#endif //QUADTREENODE_OLD_H

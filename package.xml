@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>heightmap_ros</name>
+  <name>single_height_pacakge</name>
   <version>0.0.0</version>
   <description>The heightmap_ros package</description>
 
