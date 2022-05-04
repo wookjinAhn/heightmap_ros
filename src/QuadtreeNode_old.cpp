@@ -6,7 +6,7 @@
 
 namespace camel
 {
-	std::vector<std::unique_ptr<Point3>> QuadtreeNode::ReadPCDToVector(std::string inputPath)
+	std::vector<std::unique_ptr<Point3>> QuadtreeNode_old::ReadPCDToVector(std::string inputPath)
 	{
 		std::ifstream fin;
 		fin.open(inputPath);
@@ -36,7 +36,7 @@ namespace camel
 		return inputPoints;
 	}
 
-	std::vector<Point3*> QuadtreeNode::SamplingPoints(std::vector<Point3*> inputPoints, int samplingNum)
+	std::vector<Point3*> QuadtreeNode_old::SamplingPoints(std::vector<Point3*> inputPoints, int samplingNum)
 	{
 		std::vector<Point3*> samplingPoints;
 
@@ -59,7 +59,7 @@ namespace camel
 		return samplingPoints;
 	}
 
-	void QuadtreeNode::InsertPoints(std::vector<Point3*> points)
+	void QuadtreeNode_old::InsertPoints(std::vector<Point3*> points)
 	{
 		for (int i = 0; i < points.size(); i++) //
 		{
@@ -70,7 +70,7 @@ namespace camel
 		mHeightmap->MakeMapToVector();
 	}
 
-	void QuadtreeNode::subdivide()
+	void QuadtreeNode_old::subdivide()
 	{
 		float x = mBoundary.GetX();
 		float z = mBoundary.GetZ();
@@ -82,15 +82,15 @@ namespace camel
 		Boundary sw(x - w / 2, z - h / 2, w / 2, h / 2);
 		Boundary se(x + w / 2, z - h / 2, w / 2, h / 2);
 
-		mNW = std::make_unique<QuadtreeNode>(nw, mDepth, mCapacity);
-		mNE = std::make_unique<QuadtreeNode>(ne, mDepth, mCapacity);
-		mSW = std::make_unique<QuadtreeNode>(sw, mDepth, mCapacity);
-		mSE = std::make_unique<QuadtreeNode>(se, mDepth, mCapacity);
+		mNW = std::make_unique<QuadtreeNode_old>(nw, mDepth, mCapacity);
+		mNE = std::make_unique<QuadtreeNode_old>(ne, mDepth, mCapacity);
+		mSW = std::make_unique<QuadtreeNode_old>(sw, mDepth, mCapacity);
+		mSE = std::make_unique<QuadtreeNode_old>(se, mDepth, mCapacity);
 
 		mbDivided = true;
 	}
 
-	void QuadtreeNode::insertNode(Point3* point, HeightmapNode* heightmap, int depth)
+	void QuadtreeNode_old::insertNode(Point3* point, HeightmapNode* heightmap, int depth)
 	{
 		mCapacityPoints.push_back(point);
 
@@ -135,7 +135,7 @@ namespace camel
 		}
 	}
 
-	void QuadtreeNode::WriteHeightmapToPCD(std::string outputPath)
+	void QuadtreeNode_old::WriteHeightmapToPCD(std::string outputPath)
 	{
 		time_t t;
 		struct tm* timeinfo;
@@ -174,7 +174,7 @@ namespace camel
 		fout.close();
 	}
 
-	std::vector<Point3*> QuadtreeNode::ReadTopicToPoints(sensor_msgs::PointCloud pointcloud_msg)
+	std::vector<Point3*> QuadtreeNode_old::ReadTopicToPoints(sensor_msgs::PointCloud pointcloud_msg)
 	{
 		for(int i = 0; i < pointcloud_msg.points.size(); i++)
 		{
@@ -184,7 +184,7 @@ namespace camel
 		return mPoints;
 	}
 
-	void QuadtreeNode::MakeHeightmapToTopic(sensor_msgs::PointCloud& output_pointcloud)
+	void QuadtreeNode_old::MakeHeightmapToTopic(sensor_msgs::PointCloud& output_pointcloud)
 	{
 		output_pointcloud.header.frame_id = "camera_depth_optical_frame";           // header
 		output_pointcloud.header.stamp = ros::Time::now();

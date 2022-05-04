@@ -12,10 +12,10 @@
 
 namespace camel
 {
-	class HeightmapNode
+	class HeightmapNode_old
 	{
 	public:
-		~HeightmapNode()
+		~HeightmapNode_old()
 		{
 			for (int i = 0; i < mPoints.size(); i++) {
 				delete mPoints[i];

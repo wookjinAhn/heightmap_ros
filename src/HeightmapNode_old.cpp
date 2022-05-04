@@ -6,7 +6,7 @@
 
 namespace camel
 {
-	void HeightmapNode::MakeHeightMap(Point3* points)	// { <x, z>, y}
+	void HeightmapNode_old::MakeHeightMap(Point3* points)	// { <x, z>, y}
 	{
 		if (mHeightPair.find(std::make_pair(points->GetEndNodeXZ().GetX(), points->GetEndNodeXZ().GetZ())) == mHeightPair.end())	// exist
 		{
@@ -32,7 +32,7 @@ namespace camel
 //        }
 //    }
 
-	void HeightmapNode::MakeMapToVector()
+	void HeightmapNode_old::MakeMapToVector()
 	{
 		for (auto iter = mHeightPair.begin(); iter != mHeightPair.end(); ++iter)
 		{

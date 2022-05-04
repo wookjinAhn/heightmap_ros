@@ -6,9 +6,11 @@ set(CMAKE_CXX_FLAGS "-std=c++14 ${CMAKE_CXX_FLAGS}")
 set(heightmap_ros_src
         src/Boundary.cpp
 #        src/HeightmapNode_old.cpp
+        src/HeightmapNode.cpp
         src/Point3.cpp
         src/Point2.cpp
 #        src/QuadtreeNode_old.cpp
+        src/QuadtreeNode.cpp
 )
 
 find_package(catkin REQUIRED COMPONENTS
