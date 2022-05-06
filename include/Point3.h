@@ -16,10 +16,10 @@ namespace camel
 		Point3();
 		Point3(float x, float y, float z);
 
-		Point2 GetEndNodeXZ() const;
+		Point2 GetNodeKey() const;
 
-		void SetEndNodeXZ(Point2 const endNodeXZ);
-		void SetEndNodeXZ(float const x, float const y);
+		void SetNodeKeyXZ(Point2 const endNodeXZ);
+		void SetNodeKeyXZ(float const x, float const y);
 
 	private:
 		Point2 mEndNodeXY;

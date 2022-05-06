@@ -90,7 +90,7 @@ namespace camel
 		mbDivided = true;
 	}
 
-	void QuadtreeNode_old::insertNode(Point3* point, HeightmapNode* heightmap, int depth)
+	void QuadtreeNode_old::insertNode(Point3* point, HeightmapNode_old* heightmap, int depth)
 	{
 		mCapacityPoints.push_back(point);
 

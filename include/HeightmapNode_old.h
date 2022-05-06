@@ -28,7 +28,6 @@ namespace camel
 		void MakeMapToVector();
 
 	private:
-		std::map<std::pair<float, float>, std::pair<float, int>> mMapPair;
 		std::map<std::pair<float, float>, float> mHeightPair;
 		std::vector<Point3*> mPoints;
 	};

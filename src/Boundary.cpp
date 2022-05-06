@@ -22,8 +22,6 @@ namespace camel
 	{
 	}
 
-	Boundary boundary(-1.0f, 1.0f, 2.0f);
-
 	Boundary::Boundary(float minX, float maxX, float z)
 		: mX((maxX + minX) / 2)
 		, mZ(z / 2)
